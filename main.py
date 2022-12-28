@@ -1,7 +1,6 @@
 from notion_client import Client
 import arxiv
 import pandas as pd
-from tqdm import tqdm
 
 from dotenv import load_dotenv
 import os
@@ -21,11 +20,13 @@ def fetch_table():
     
 def download_papers(df):
     papers = arxiv.Search(id_list=df["id"]).results()
-    for i, paper in tqdm(enumerate(papers)):
+    for i, paper in enumerate(papers):
         title = df["title"][i].replace(" ", "_")
         path = f"papers/{title}.pdf"
         if not os.path.exists(path):
+            print(f"Downloading {title}...", end=" ")
             paper.download_pdf(filename=path)
+            print("Done!")
 
 if __name__ == "__main__":
     load_dotenv()
