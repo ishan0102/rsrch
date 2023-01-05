@@ -1,34 +1,52 @@
 from notion_client import Client
-import arxiv
-import pandas as pd
-
 from dotenv import load_dotenv
+from tqdm import tqdm
+import requests
+import urllib3
 import os
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
 
 def fetch_table():
     notion = Client(auth=os.getenv("NOTION_TOKEN"))
-    papers = notion.databases.query(database_id=os.getenv("NOTION_DATABASE_ID"))
+    paper_db = notion.databases.query(database_id=os.getenv("NOTION_DATABASE_ID"))
 
-    titles, ids = [], []
-    for paper in papers["results"]:
+    papers = []
+    for paper in paper_db["results"]:
         if not paper["properties"]["Title"]["title"] == []:
-            titles.append(paper["properties"]["Title"]["title"][0]["plain_text"])
-            ids.append(paper["properties"]["URL"]["url"].split("/")[-1])
-    
-    df = pd.DataFrame({"title": titles, "id": ids})
-    return df
-    
-def download_papers(df):
-    papers = arxiv.Search(id_list=df["id"]).results()
-    for i, paper in enumerate(papers):
-        title = df["title"][i].replace(" ", "_")
-        path = f"papers/{title}.pdf"
+            title = paper["properties"]["Title"]["title"][0]["plain_text"]
+            url = paper["properties"]["URL"]["url"]
+            if not url == None and url.startswith("http"):
+                papers.append((title, url))
+
+    return papers
+
+
+def download_papers(papers):
+    if not os.path.exists("papers"):
+        os.mkdir("papers")
+
+    for title, url in papers:
+        path = f"papers/{title.replace(' ', '_')}.pdf"
         if not os.path.exists(path):
-            print(f"Downloading {title}...", end=" ")
-            paper.download_pdf(filename=path)
-            print("Done!")
+            print(f"Downloading {title}...")
+            try:
+                r = requests.get(url, stream=True, verify=True)
+            except requests.exceptions.SSLError:
+                r = requests.get(url, stream=True, verify=False)
+
+            with open(path, "wb") as f:
+                for chunk in tqdm(
+                    r.iter_content(chunk_size=1024),
+                    total=int(r.headers["Content-Length"]) / 1024,
+                    unit="KB",
+                ):
+                    if chunk:
+                        f.write(chunk)
+
 
 if __name__ == "__main__":
     load_dotenv()
-    df = fetch_table()
-    download_papers(df)
+    papers = fetch_table()
+    download_papers(papers)

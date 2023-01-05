@@ -1,4 +1,4 @@
-# Download arXiv Papers from Notion
+# Download Papers from a Notion Database
 If you have a Notion page with `Title` and `URL` fields of arXiv papers, this will download them to the `papers/` directory.
 <p align="center">
   <img width="800" alt="image" src="https://user-images.githubusercontent.com/47067154/209739153-814b31ac-d2e8-4b80-b622-ee0ae607019f.png">
@@ -32,6 +32,9 @@ If you have a Notion page with `Title` and `URL` fields of arXiv papers, this wi
 
 This will skip over any papers that have already been downloaded (based on the `Title` already existing in `papers/`).
 
+## Notes
+- The script will download the PDFs to the `papers/` directory. If you want to change this, you can change the `path` variable in `main.py`.
+- I plan on adding support for other databases in the future, but for now it only works with Notion databases.
+
 ## Resources
 - [Notion API](https://developers.notion.com/)
-- [arXiv.py](https://github.com/lukasschwab/arxiv.py)
