@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from tqdm import tqdm
 import requests
 import urllib3
+import math
 import os
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -30,7 +31,7 @@ def download_papers(papers):
     for title, url in papers:
         path = f"papers/{title.replace(' ', '_')}.pdf"
         if not os.path.exists(path):
-            print(f"Downloading {title}...")
+            print(f'\nDownloading "{title}"')
             try:
                 r = requests.get(url, stream=True, verify=True)
             except requests.exceptions.SSLError:
@@ -39,7 +40,7 @@ def download_papers(papers):
             with open(path, "wb") as f:
                 for chunk in tqdm(
                     r.iter_content(chunk_size=1024),
-                    total=int(r.headers["Content-Length"]) / 1024,
+                    total=math.ceil(int(r.headers["Content-Length"]) / 1024),
                     unit="KB",
                 ):
                     if chunk:

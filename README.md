@@ -30,6 +30,10 @@ If you have a Notion page with `Title` and `URL` fields of arXiv papers, this wi
     python3 download.py
     ```
 
+<p align="center">
+  <img width="800" alt="image" src="https://user-images.githubusercontent.com/47067154/210903470-3a52aa5c-30b1-48fd-8de3-914d86430dcc.png">
+</p>
+
 This will skip over any papers that have already been downloaded (based on the `Title` already existing in `papers/`).
 
 ## Notes
