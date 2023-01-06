@@ -1,7 +1,10 @@
 # Download Papers from a Notion Database
-If you have a Notion page with `Title` and `URL` fields of arXiv papers, this will download them to the `papers/` directory.
+If you have a Notion database with `Title` and `URL` fields for research papers, this will download them to the `papers/` directory locally.
 <p align="center">
   <img width="800" alt="image" src="https://user-images.githubusercontent.com/47067154/209739153-814b31ac-d2e8-4b80-b622-ee0ae607019f.png">
+</p>
+<p align="center">
+  <img width="700" alt="image" src="https://user-images.githubusercontent.com/47067154/210903470-3a52aa5c-30b1-48fd-8de3-914d86430dcc.png">
 </p>
 
 ## Usage
@@ -29,10 +32,6 @@ If you have a Notion page with `Title` and `URL` fields of arXiv papers, this wi
     ```bash
     python3 download.py
     ```
-
-<p align="center">
-  <img width="800" alt="image" src="https://user-images.githubusercontent.com/47067154/210903470-3a52aa5c-30b1-48fd-8de3-914d86430dcc.png">
-</p>
 
 This will skip over any papers that have already been downloaded (based on the `Title` already existing in `papers/`).
 
