@@ -1,4 +1,5 @@
 anyio==3.6.2
+arxiv==1.4.2
 black==22.12.0
 certifi==2022.12.7
 charset-normalizer==2.1.1
