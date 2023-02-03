@@ -23,6 +23,7 @@ def fetch_table():
 
 
 def get_arxiv_dates():
+    print("Fetching dates from arXiv...")
     papers = fetch_table()
 
     ids = []
@@ -41,6 +42,7 @@ def get_arxiv_dates():
 
 
 def validate_dates():
+    print("Validating dates...")
     papers = fetch_table()
 
     ids = []
@@ -51,8 +53,10 @@ def validate_dates():
 
         url = url.replace("https://arxiv.org/pdf/", "")
         url = url.replace(".pdf", "")
-        ids.append(url)
+        if url[-2] == "v":
+            url = url[:-2]
 
+        ids.append(url)
         datemap[url] = date
 
     results = arxiv.Search(id_list=ids)
@@ -65,6 +69,8 @@ def validate_dates():
             print(
                 f"Date for {shorttitle} is wrong: It should be {paper.published.strftime('%b %d %Y')}"
             )
+
+    print("Done validating dates!")
 
 
 if __name__ == "__main__":
