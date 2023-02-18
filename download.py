@@ -17,7 +17,7 @@ def download_papers():
     if not os.path.exists("papers"):
         os.mkdir("papers")
 
-    for title, url in papers:
+    for title, url, _, _ in papers:
         path = f"papers/{title.replace(' ', '_')}.pdf"
         if not os.path.exists(path):
             print(f'\nDownloading "{title}"')

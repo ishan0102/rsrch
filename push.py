@@ -42,7 +42,7 @@ def create_paper(notion, title, url, date, authors):
         },
     )
 
-    print(f'Created "{title}" in Notion')
+    print(f"- {title}")
 
 
 def push_papers(arxiv_urls):
@@ -60,6 +60,7 @@ def push_papers(arxiv_urls):
     titles = [title for title, _, _, _ in papers]
 
     # Fetch paper data from arXiv
+    print("Pushing papers to Notion...")
     results = arxiv.Search(id_list=ids)
     for paper in results.results():
         # Date is in ISO 8601 format, e.g. 2020-01-01
@@ -71,7 +72,9 @@ def push_papers(arxiv_urls):
         # Paper authors (max 5)
         authors = [author.name for author in paper.authors]
         if len(authors) > 5:
-            authors = authors[:5] + ", et al."
+            authors = ", ".join(authors[:5]) + ", et al."
+        else:
+            authors = ", ".join(authors)
 
         # Paper URL
         pdf_url = paper.pdf_url

@@ -1,7 +1,7 @@
 import click
 
-import download
-import push
+from download import download_papers
+from push import push_papers
 
 
 @click.group()
@@ -11,9 +11,14 @@ def cli():
 
 @cli.command()
 def download():
-    download.download_papers()
+    download_papers()
 
 
 @cli.command()
-def push():
-    push.push_papers()
+@click.argument("arxiv_urls", nargs=-1)
+def push(arxiv_urls):
+    push_papers(arxiv_urls)
+
+
+if __name__ == "__main__":
+    cli()
