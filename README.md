@@ -1,3 +1,5 @@
+# WIP: creating a get_papers and add_papers CLI tool
+
 # Download Papers from a Notion Database
 If you have a Notion database with `Title` and `URL` fields for research papers, this will download them to the `papers/` directory locally.
 <p align="center">

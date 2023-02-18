@@ -9,6 +9,7 @@ h11==0.14.0
 httpcore==0.16.3
 httpx==0.23.1
 idna==3.4
+isort==5.12.0
 mypy-extensions==0.4.3
 notion-client==2.0.0
 numpy==1.24.1
