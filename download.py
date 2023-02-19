@@ -10,6 +10,7 @@ import utils
 
 
 def download_papers():
+    print("Downloading papers from Notion...")
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
     load_dotenv()
     papers = utils.fetch_table()

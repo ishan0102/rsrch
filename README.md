@@ -1,15 +1,11 @@
-# WIP: creating a get_papers and add_papers CLI tool
+# rsrch
+Manage your research papers through your CLI. This project lets you update a Notion database with arXiv links and download PDFs of papers to your local machine.
 
-# Download Papers from a Notion Database
-If you have a Notion database with `Title` and `URL` fields for research papers, this will download them to the `papers/` directory locally.
 <p align="center">
-  <img width="700" alt="image" src="https://user-images.githubusercontent.com/47067154/209739153-814b31ac-d2e8-4b80-b622-ee0ae607019f.png">
-</p>
-<p align="center">
-  <img width="700" alt="image" src="https://user-images.githubusercontent.com/47067154/210903470-3a52aa5c-30b1-48fd-8de3-914d86430dcc.png">
+    <img width="1095" alt="image" src="https://user-images.githubusercontent.com/47067154/219932040-ab4962f8-b01e-4d94-9eba-77a155b0e933.png">
 </p>
 
-## Usage
+## Installation
 1. Create an [internal integration](https://www.notion.so/help/create-integrations-with-the-notion-api) in Notion.
 
 2. [Add the integration](https://www.notion.so/help/add-and-manage-connections-with-the-api#add-connections-to-pages) to the database you want to download from.
@@ -29,17 +25,80 @@ If you have a Notion database with `Title` and `URL` fields for research papers,
     pip install -r requirements.txt
     ```
 
-5. Run the script:
+5. **Important**: Your Notion database must have the following columns with the corresponding types:
+    - **Title**: `Title`
+    - **URL**: `URL`
+    - **Date**: `Date`
+    - **Authors**: `Text`
 
-    ```bash
-    python3 download.py
-    ```
+    You can add more columns, but these are the ones that are required.
 
-This will skip over any papers that have already been downloaded (based on the `Title` already existing in `papers/`).
+## Usage
+Activate the virtual environment:
+
+```bash
+source venv/bin/activate
+```
+
+### Download
+This will download all the papers from your Notion database to the `papers/` directory.
+
+```bash
+python cli.py download
+```
+
+<p>
+    <img width="1097" alt="image" src="https://user-images.githubusercontent.com/47067154/219932318-54b37a51-850f-4ab2-b916-43361816fa91.png">
+</p>
+
+### Push
+You can push arXiv abstract links to your Notion database and have it autofill all of the relevant fields.
+
+```bash
+python cli.py push https://arxiv.org/abs/1706.03762
+```
+
+<p>
+    <img width="1095" alt="image" src="https://user-images.githubusercontent.com/47067154/219932341-a44ff798-3fd0-46f8-8a43-3a22b5dcdcf8.png">
+</p>
+
+Alternatively, you can add non-arXiv links manually to Notion.
+
 
 ## Notes
+- Uploading papers to Notion is currently only supported for arXiv links. Papers with titles that already exist in the database will not be uploaded.
 - The script will download the PDFs to the `papers/` directory. If you want to change this, you can change the `path` variable in `main.py`.
 - I plan on adding support for other databases in the future, but for now it only works with Notion databases.
 
-## Resources
+### Bash Functions
+For those of us that use the command line a lot, you can add the following functions to your `.bashrc` file to make it easier to use:
+
+#### Download any new research papers
+```bash
+function get_papers() {
+    # Go to rsrch directory
+    cd ~/Documents/projects/rsrch
+
+    # Download papers
+    source venv/bin/activate
+    python cli.py download
+    cd papers
+}
+```
+
+#### Push any new research papers
+```bash
+function add_papers() {
+    # Go to rsrch directory
+    cd ~/Documents/projects/rsrch
+
+    # Push papers
+    source venv/bin/activate
+    python cli.py push $*
+}
+```
+
+Now you can just run `get_papers` or `add_papers` with `N` arXiv links to download or push papers to your Notion database!
+
+### Resources
 - [Notion API](https://developers.notion.com/)
