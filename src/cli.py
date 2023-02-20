@@ -1,7 +1,6 @@
 import click
 
-from download import download_papers
-from push import push_papers
+from rsrch import download_papers, push_papers
 
 
 @click.group()

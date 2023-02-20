@@ -1,10 +1,42 @@
+import math
 import os
 
 import arxiv
+import requests
+import urllib3
 from dotenv import load_dotenv
 from notion_client import Client
+from tqdm import tqdm
 
 import utils
+
+
+def download_papers():
+    print("Downloading papers from Notion...")
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+    load_dotenv()
+    papers = utils.fetch_table()
+
+    if not os.path.exists("papers"):
+        os.mkdir("papers")
+
+    for title, url, _, _ in papers:
+        path = f"../papers/{title.replace(' ', '_')}.pdf"
+        if not os.path.exists(path):
+            print(f'\nDownloading "{title}"')
+            try:
+                r = requests.get(url, stream=True, verify=True)
+            except requests.exceptions.SSLError:
+                r = requests.get(url, stream=True, verify=False)
+
+            with open(path, "wb") as f:
+                for chunk in tqdm(
+                    r.iter_content(chunk_size=1024),
+                    total=math.ceil(int(r.headers["Content-Length"]) / 1024),
+                    unit="KB",
+                ):
+                    if chunk:
+                        f.write(chunk)
 
 
 def create_paper(notion, title, url, date, authors):

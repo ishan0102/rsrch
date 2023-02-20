@@ -44,6 +44,7 @@ source venv/bin/activate
 This will download all the papers from your Notion database to the `papers/` directory.
 
 ```bash
+cd src
 python cli.py download
 ```
 
@@ -55,6 +56,7 @@ python cli.py download
 You can push arXiv abstract links to your Notion database and have it autofill all of the relevant fields.
 
 ```bash
+cd src
 python cli.py push https://arxiv.org/abs/1706.03762
 ```
 
@@ -81,7 +83,7 @@ function get_papers() {
 
     # Download papers
     source venv/bin/activate
-    python cli.py download
+    python src/cli.py download
     cd papers
 }
 ```
@@ -94,7 +96,7 @@ function add_papers() {
 
     # Push papers
     source venv/bin/activate
-    python cli.py push $*
+    python src/cli.py push $*
 }
 ```
 
