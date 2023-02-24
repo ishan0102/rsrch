@@ -17,8 +17,8 @@ def download_papers():
     load_dotenv()
     papers = utils.fetch_table()
 
-    if not os.path.exists("papers"):
-        os.mkdir("papers")
+    if not os.path.exists("../papers"):
+        os.mkdir("../papers")
 
     for title, url, _, _ in papers:
         path = f"../papers/{title.replace(' ', '_')}.pdf"
@@ -114,3 +114,5 @@ def push_papers(arxiv_urls):
         # Create paper in Notion if it doesn't already exist
         if title not in titles:
             create_paper(notion, title, pdf_url, date, authors)
+        else:
+            print(f"- {title} (already exists)")
