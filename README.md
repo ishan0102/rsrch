@@ -53,7 +53,7 @@ python cli.py download
 </p>
 
 ### Push
-You can push arXiv abstract links to your Notion database and have it autofill all of the relevant fields.
+You can push arXiv abstract links, PDF links, or IDs to your Notion database and have it autofill all of the relevant fields.
 
 ```bash
 cd src

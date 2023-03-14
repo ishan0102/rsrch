@@ -86,6 +86,12 @@ def push_papers(arxiv_urls):
     for url in arxiv_urls:
         if url.startswith("https://arxiv.org/abs/"):
             ids.append(url.replace("https://arxiv.org/abs/", ""))
+        elif url.startswith("https://arxiv.org/pdf/") and url.endswith(".pdf"):
+            ids.append(url.replace("https://arxiv.org/pdf/", "").replace(".pdf", ""))
+        elif requests.get("https://arxiv.org/abs/" + url).status_code == 200:
+            ids.append(url)
+        else:
+            print(f"ERROR: {url} is not a valid arXiv abstract URL, PDF URL, or ID.")
 
     # Fetch titles of papers already in Notion
     papers = utils.fetch_table()
