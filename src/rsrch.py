@@ -122,3 +122,5 @@ def push_papers(arxiv_urls):
             create_paper(notion, title, pdf_url, date, authors)
         else:
             print(f"- {title} (already exists)")
+
+    print("Done!")
