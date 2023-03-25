@@ -1,5 +1,6 @@
-import os
 import io
+import os
+import re
 import sys
 
 import discord
@@ -32,12 +33,11 @@ async def on_message(message):
     original_stdout = sys.stdout
     sys.stdout = captured_stdout = io.StringIO()
 
-    # Call the push_papers function
-    # Split the message content into a list of arguments if there are more than one
-    if len(message.content.split()) > 1:
-        push_papers(message.content.split())
-    else:
-        push_papers([message.content])
+    # Use regular expressions to search for URLs in the message content
+    urls = re.findall("(?P<url>https?://[^\s]+)", message.content)
+
+    # Push the URLs to push_papers
+    push_papers(urls)
 
     # Reset stdout to the original value
     sys.stdout = original_stdout
