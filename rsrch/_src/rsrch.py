@@ -32,11 +32,11 @@ def download_papers():
     load_dotenv()
     papers = fetch_table()
 
-    if not os.path.exists("../papers"):
-        os.mkdir("../papers")
+    if not os.path.exists("papers"):
+        os.mkdir("papers")
 
     for title, url, _, _ in papers:
-        path = f"../papers/{title.replace(' ', '_')}.pdf"
+        path = f"papers/{title.replace(' ', '_')}.pdf"
         if not os.path.exists(path):
             print(f'\nDownloading "{title}"')
             try:
