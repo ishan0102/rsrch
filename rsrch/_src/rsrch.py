@@ -26,7 +26,7 @@ def fetch_table():
     return papers
 
 
-def download_papers():
+def download():
     print("Downloading papers from Notion...")
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
     load_dotenv()
@@ -92,7 +92,7 @@ def create_paper(notion, title, url, date, authors):
     print(f"- {title}")
 
 
-def push_papers(arxiv_urls):
+def upload(arxiv_urls):
     load_dotenv()
     notion = Client(auth=os.getenv("NOTION_TOKEN"))
 
@@ -113,7 +113,7 @@ def push_papers(arxiv_urls):
     titles = [title for title, _, _, _ in papers]
 
     # Fetch paper data from arXiv
-    print("Pushing papers to Notion...")
+    print("Uploading papers to Notion...\n")
     results = arxiv.Search(id_list=ids)
     for paper in results.results():
         # Date is in ISO 8601 format, e.g. 2020-01-01
@@ -138,4 +138,4 @@ def push_papers(arxiv_urls):
         else:
             print(f"- {title} (already exists)")
 
-    print("Done!")
+    print("\nDone!")

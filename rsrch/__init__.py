@@ -1,8 +1,8 @@
-from ._src.rsrch import download_papers, push_papers
+from ._src.rsrch import download, upload
 
 # Make the functions accessible with from rsrch import *
-__all__ = ["download_papers", "push_papers"]
+__all__ = ["download", "upload"]
 
 # Make the functions directly accessible under the package namespace
-download_papers = download_papers
-push_papers = push_papers
+download = download
+upload = upload
