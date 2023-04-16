@@ -8,14 +8,29 @@ from dotenv import load_dotenv
 from notion_client import Client
 from tqdm import tqdm
 
-import utils
+
+def fetch_table():
+    notion = Client(auth=os.getenv("NOTION_TOKEN"))
+    paper_db = notion.databases.query(database_id=os.getenv("NOTION_DATABASE_ID"))
+
+    papers = []
+    for paper in paper_db["results"]:
+        if not paper["properties"]["Title"]["title"] == []:
+            title = paper["properties"]["Title"]["title"][0]["plain_text"]
+            url = paper["properties"]["URL"]["url"]
+            date = paper["properties"]["Date"]["date"]["start"]
+            authors = paper["properties"]["Authors"]["rich_text"][0]["plain_text"]
+            if not url == None and url.startswith("http"):
+                papers.append((title, url, date, authors))
+
+    return papers
 
 
 def download_papers():
     print("Downloading papers from Notion...")
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
     load_dotenv()
-    papers = utils.fetch_table()
+    papers = fetch_table()
 
     if not os.path.exists("../papers"):
         os.mkdir("../papers")
@@ -94,7 +109,7 @@ def push_papers(arxiv_urls):
             print(f"ERROR: {url} is not a valid arXiv abstract URL, PDF URL, or ID.")
 
     # Fetch titles of papers already in Notion
-    papers = utils.fetch_table()
+    papers = fetch_table()
     titles = [title for title, _, _, _ in papers]
 
     # Fetch paper data from arXiv

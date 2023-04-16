@@ -3,3 +3,5 @@
 venv/
 papers/
 *.pem
+dist/
+*.egg-info/
