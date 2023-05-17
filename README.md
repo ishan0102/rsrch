@@ -63,6 +63,11 @@ Alternatively, you can add non-arXiv links manually to Notion.
 ## Notes
 - Uploading papers to Notion is currently only supported for arXiv links. Papers with titles that already exist in the database will not be uploaded.
 - I plan on adding support for other databases in the future, but for now it only works with Notion databases.
+- To build and release this:
+  - Make new code accessible in `src/__init__.py`
+  - Update the version in `src/__about__.py`
+  - Run `python3 -m build`
+  - Run `python3 -m twine upload dist/*`
 
 ### Resources
 - [Notion API](https://developers.notion.com/)
