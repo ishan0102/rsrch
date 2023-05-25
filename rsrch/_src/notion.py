@@ -27,6 +27,25 @@ def fetch_table():
 
 
 def download():
+    """
+    Downloads papers from Notion.
+
+    Returns:
+        None
+
+    Downloads papers from the Notion database.
+    Paper URLs are fetched from the table using the 'fetch_table' function.
+    The downloaded papers are saved in a 'papers' directory.
+    Existing files are skipped.
+    Prints progress information for each paper being downloaded.
+
+    Note:
+        - Requires the 'python-dotenv', 'urllib3', 'requests', and 'tqdm' libraries.
+        - 'fetch_table' function is assumed to be defined elsewhere.
+
+    Example Usage:
+        download()
+    """
     print("Downloading papers from Notion...")
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
     load_dotenv()
@@ -93,6 +112,27 @@ def create_paper(notion, title, url, date, authors):
 
 
 def upload(arxiv_urls):
+    """
+    Uploads papers from arXiv to Notion.
+
+    Parameters:
+        arxiv_urls (list): List of arXiv URLs or IDs.
+
+    Returns:
+        None
+
+    Connects to Notion API and uploads papers from arXiv.
+    Creates new papers in Notion, skipping existing ones.
+    Prints "Done!" when finished.
+
+    Example:
+        urls = [
+            "https://arxiv.org/abs/2105.12345",
+            "https://arxiv.org/abs/2106.67890",
+            "https://arxiv.org/pdf/2107.24680.pdf"
+        ]
+        upload(urls)
+    """
     load_dotenv()
     notion = Client(auth=os.getenv("NOTION_TOKEN"))
 
