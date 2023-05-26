@@ -59,6 +59,18 @@ upload()
 
 Alternatively, you can add non-arXiv links manually to Notion.
 
+### Popular
+You can get the most popular papers from this day, week, or month from the [LabML database](https://papers.labml.ai/).
+
+```python
+from rsrch import popular
+popular(sort_by="weekly", num_papers=10)
+```
+
+<p>
+    <img width="1095" alt="image" src="https://github.com/ishan0102/rsrch/assets/47067154/b99197a1-8556-4469-82f4-786a4c974447">
+</p>
+
 
 ## Notes
 - Uploading papers to Notion is currently only supported for arXiv links. Papers with titles that already exist in the database will not be uploaded.

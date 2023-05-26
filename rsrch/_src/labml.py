@@ -1,4 +1,5 @@
 import json
+import string
 import time
 
 import arxiv
@@ -40,6 +41,7 @@ def get_authorization_token():
 def fetch_paper_details(paper):
     title = paper["title"]["text"].replace("\n", " ")
     title = " ".join(title.split())
+    title = title.translate(str.maketrans("", "", string.punctuation))
 
     search = arxiv.Search(
         query=title,
@@ -123,7 +125,7 @@ def popular(sort_by="weekly", num_papers=5):
                 except Exception as e:
                     console.print(f"[bold yellow]Error occurred:[/bold yellow] {e}")
 
-            console.print()
+            console.print(f"\nFound {len(paper_data)} out of {len(papers)} paper successfully.\n")
             if len(paper_data) > 0:
                 table = Table(title="Popular Papers", header_style="bold blue")
                 table.add_column("Title")
