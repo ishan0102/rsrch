@@ -48,14 +48,7 @@ def fetch_paper_details(paper):
         max_results=10,
     )
 
-    # Storing the results in a list
-    results = list(search.results())
-
-    # Sorting the results by title match (must be exact)
-    results.sort(key=lambda r: r.title != title)
-    paper = results[0] if results[0].title == title else None
-
-    return paper
+    return next(search.results(), None)
 
 
 def popular(sort_by="weekly", num_papers=5):
