@@ -3,7 +3,6 @@ import os
 
 import arxiv
 import requests
-import urllib3
 from dotenv import load_dotenv
 from notion_client import Client
 from tqdm import tqdm
@@ -40,14 +39,13 @@ def download():
     Prints progress information for each paper being downloaded.
 
     Note:
-        - Requires the 'python-dotenv', 'urllib3', 'requests', and 'tqdm' libraries.
+        - Requires the 'python-dotenv', 'requests', and 'tqdm' libraries.
         - 'fetch_table' function is assumed to be defined elsewhere.
 
     Example Usage:
         download()
     """
     print("Downloading papers from Notion...")
-    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
     load_dotenv()
     papers = fetch_table()
 
