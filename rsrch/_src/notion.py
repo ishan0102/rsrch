@@ -47,6 +47,14 @@ class RsrchClient:
         return title, url, date, authors
 
     def fetch_table(self):
+        """
+        Retrieves the data of all papers in the Notion database.
+
+        Returns
+        -------
+        list
+            A list of tuples, where each tuple contains the title, URL, date, and authors of a paper.
+        """
         paper_db = self.notion.databases.query(database_id=self.database_id)
         papers = [
             self._get_paper_properties(paper) for paper in paper_db["results"] if paper["properties"]["Title"]["title"]
