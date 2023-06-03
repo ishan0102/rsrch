@@ -6,7 +6,7 @@ With a few lines of Python and a call to `rsrch`, you can download all of the pa
 ```python
 import requests
 import re
-import rsrch
+from rsrch import RsrchClient
 
 # Get the HTML of the page
 html = requests.get("https://www.yitay.net/blog/2022-best-nlp-papers").text
@@ -14,10 +14,11 @@ html = requests.get("https://www.yitay.net/blog/2022-best-nlp-papers").text
 # Regex match all arXiv abstracts
 matches = re.findall(r"https:\/\/arxiv\.org\/abs\/[\w\-]+\.[\w\-]+", html)
 
-# Concatenate all the matches into a single string and remove quotes
-urls = " ".join(matches).replace('"', '')
+# Concatenate all the matches into a single string, remove quotes, and make a list
+urls = " ".join(matches).replace('"', '').split()
 
-# Upload the links to Notion and download the papers
+# Upload the links to Notion and download the paper PDFs
+rsrch = RsrchClient(token="your_notion_token", database="your_notion_database")
 rsrch.upload(urls)
 rsrch.download()
 ```

@@ -1,8 +1,7 @@
-from ._src.notion import download, upload
+from ._src.notion import RsrchClient
 
-# Make the functions accessible with from rsrch import *
-__all__ = ["download", "upload"]
+# Make the client accessible with from rsrch import *
+__all__ = ["RsrchClient"]
 
-# Make the functions directly accessible under the package namespace
-download = download
-upload = upload
+# Make the client accessible with from rsrch import RsrchClient
+RsrchClient = RsrchClient
