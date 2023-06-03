@@ -10,13 +10,7 @@ Manage your research papers from Python. This project lets you update a Notion d
 
 2. [Add the integration](https://www.notion.so/help/add-and-manage-connections-with-the-api#add-connections-to-pages) to the database you want to download from.
 
-3. Create a `.env` file with the following variables:
-
-    ```
-    NOTION_TOKEN=secret_XXXXXXXX
-    NOTION_DATABASE_ID=XXXXXXXXXXXXXXXX
-    ```
-    Your `NOTION_TOKEN` can be found in your [integrations page](https://www.notion.so/my-integrations) and is called the **Internal Integration Token**. The `NOTION_DATABASE_ID` can be found in the [URL of your database](https://www.notion.so/my-integrations) (`https://www.notion.so/{workspace_name}/{database_id}?v={view_id}`).
+3. Store your `NOTION_TOKEN` and `NOTION_DATABASE_ID` somewhere safe. Your `NOTION_TOKEN` can be found in your [integrations page](https://www.notion.so/my-integrations) and is called the **Internal Integration Token**. The `NOTION_DATABASE_ID` can be found in the [URL of your database](https://www.notion.so/my-integrations) (`https://www.notion.so/{workspace_name}/{database_id}?v={view_id}`).
 
 4. Install local dependencies:
 
@@ -33,12 +27,21 @@ Manage your research papers from Python. This project lets you update a Notion d
     You can add more columns, but these are the ones that are required.
 
 ## Usage
+### Setup
+```python
+from rsrch import RsrchClient
+
+client = RsrchClient(
+    token=NOTION_TOKEN,
+    database_id=NOTION_DATABASE_ID,
+)
+```
+
 ### Download
 This will download all the papers from your Notion database to the `papers/` directory.
 
 ```python
-from rsrch import download
-download()
+client.download()
 ```
 
 <p>
@@ -49,8 +52,13 @@ download()
 You can upload arXiv abstract links, PDF links, or IDs to your Notion database and have it autofill all of the relevant fields.
 
 ```python
-from rsrch import upload
-upload()
+client.upload(
+    arxiv_urls=[
+        "https://arxiv.org/abs/1706.03762",
+        "https://arxiv.org/pdf/1706.03762.pdf",
+        "1706.03762",
+    ]
+)
 ```
 
 <p>
