@@ -14,10 +14,10 @@ class RsrchClient:
 
     Attributes
     ----------
-    notion : Client
-        The Notion API client.
+    token : str
+        The API key for Notion. If not provided, raises a ValueError.
     database_id : str
-        The ID of the database in Notion.
+        The ID of the database in Notion. If not provided, raises a ValueError.
     """
 
     def __init__(self, token: str, database_id: str):
@@ -48,17 +48,30 @@ class RsrchClient:
 
     def fetch_table(self):
         """
-        Retrieves the data of all papers in the Notion database.
+        Retrieves the data of all papers in the Notion database with pagination.
 
         Returns
         -------
         list
             A list of tuples, where each tuple contains the title, URL, date, and authors of a paper.
         """
-        paper_db = self.notion.databases.query(database_id=self.database_id)
-        papers = [
-            self._get_paper_properties(paper) for paper in paper_db["results"] if paper["properties"]["Title"]["title"]
-        ]
+        start_cursor = None
+        papers = []
+
+        while True:
+            response = self.notion.databases.query(database_id=self.database_id, start_cursor=start_cursor)
+            papers.extend(
+                [
+                    self._get_paper_properties(paper)
+                    for paper in response["results"]
+                    if paper["properties"]["Title"]["title"]
+                ]
+            )
+
+            if not response["has_more"]:
+                break
+            start_cursor = response["next_cursor"]
+
         return [paper for paper in papers if paper[1] and paper[1].startswith("http")]
 
     def _save_paper(self, r, path):
